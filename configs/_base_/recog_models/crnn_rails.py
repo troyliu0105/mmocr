@@ -1,5 +1,8 @@
 label_convertor = dict(
-    type='CTCConvertor', dict_file='configs/_base_/recog_models/bjgr_words_dict.txt', with_unknown=True, lower=False)
+    type='CTCConvertor',
+    dict_file='configs/_base_/recog_models/chi_words_3922_dict.txt',
+    with_unknown=True,
+    lower=False)
 
 model = dict(
     type='CRNNNet',
