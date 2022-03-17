@@ -3,7 +3,6 @@ _base_ = [
     '../../_base_/recog_models/crnn_rails.py',
     '../../_base_/recog_pipelines/crnn_rails_pipeline.py',
     '../../_base_/recog_datasets/rails_data.py',
-    '../../_base_/recog_datasets/chinese_data.py',
     # '../../_base_/schedules/schedule_adam_step_6e.py',
     '../../_base_/schedules/schedule_adadelta_5e.py',
 ]
