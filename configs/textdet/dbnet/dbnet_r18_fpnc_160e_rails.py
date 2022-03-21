@@ -2,7 +2,7 @@ _base_ = [
     '../../_base_/runtime_10e.py',
     '../../_base_/schedules/schedule_sgd_160e.py',
     '../../_base_/det_models/dbnet_r18_fpnc.py',
-    '../../_base_/det_datasets/icdar2017.py',
+    '../../_base_/det_datasets/rails.py',
     '../../_base_/det_pipelines/dbnet_pipeline.py'
 ]
 
