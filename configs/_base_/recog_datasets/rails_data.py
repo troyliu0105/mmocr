@@ -19,13 +19,6 @@ train1 = dict(
     pipeline=None,
     test_mode=False)
 
-train_img_prefix2 = 'data/chi/Chinese_dataset/images'
-train_anno_file2 = 'data/chi/Chinese_dataset/labels.txt'
-
-train2 = {key: value for key, value in train1.items()}
-train2['img_prefix'] = train_img_prefix2
-train2['ann_file'] = train_anno_file2
-
 test_anno_file = f'{root}/words_label_val.txt'
 test = dict(
     type=dataset_type,
@@ -42,6 +35,6 @@ test = dict(
     pipeline=None,
     test_mode=True)
 
-train_list = [train1, train2]
+train_list = [train1]
 
 test_list = [test]
