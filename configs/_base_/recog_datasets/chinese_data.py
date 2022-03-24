@@ -2,7 +2,7 @@ dataset_type = 'OCRDataset'
 
 img_prefix_scsd = 'data/chi/Synthetic_Chinese_String_Dataset/images'
 train_anno_file_scsd = 'data/chi/Synthetic_Chinese_String_Dataset/scsd_train.txt'
-val_anno_file_scsd = 'data/chi/Synthetic_Chinese_String_Dataset/scsd_train.txt'
+val_anno_file_scsd = 'data/chi/Synthetic_Chinese_String_Dataset/scsd_test.txt'
 
 train_scsd = dict(
     type=dataset_type,
