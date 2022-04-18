@@ -20,6 +20,7 @@
 |        NAF        |                                                                                                      [homepage](https://github.com/herobd/NAF_dataset/releases/tag/v1.0)                                                                                                       |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |       SROIE       |                                                                                                                   [homepage](https://rrc.cvc.uab.es/?ch=13)                                                                                                                    |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 | Lecture Video DB  |                                                                                               [homepage](https://cvit.iiit.ac.in/research/projects/cvit-projects/lecturevideodb)                                                                                               |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
+|       LSVT        |                                                                                                                   [homepage](https://rrc.cvc.uab.es/?ch=16)                                                                                                                    |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |       IMGUR       |                                                                                                  [homepage](https://github.com/facebookresearch/IMGUR5K-Handwriting-Dataset)                                                                                                   |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |       KAIST       |                                                                                               [homepage](http://www.iapr-tc11.org/mediawiki/index.php/KAIST_Scene_Text_Database)                                                                                               |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |       MTWI        |                                                                                           [homepage](https://tianchi.aliyun.com/competition/entrance/231685/information?lang=en-us)                                                                                            |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
@@ -28,6 +29,7 @@
 |     IIIT-ILST     |                                                                                                  [homepage](http://cvit.iiit.ac.in/research/projects/cvit-projects/iiit-ilst)                                                                                                  |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |      VinText      |                                                                                                            [homepage](https://github.com/VinAIResearch/dict-guided)                                                                                                            |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
 |        BID        |                                                                                               [homepage](https://github.com/ricardobnjunior/Brazilian-Identity-Document-Dataset)                                                                                               |                                                                                                              -                                                                                                               |                                              -                                               |                                               -                                                |
+|          RCTW          |          [homepage](https://rctw.vlrlab.net/index.html)           |                                                                                                                                                                                                           -                                                                                                                                                                                                           |                                                             -                                                             |  - |
 
 ## Important Note
 
@@ -270,7 +272,6 @@ inconsistency results in false examples in the training set. Therefore, users sh
   cd Groundtruth
   mv Polygon/Train ../annotations/training
   mv Polygon/Test ../annotations/test
-
   ```
 
 - Step2: Generate `instances_training.json` and `instances_test.json` with the following command:
@@ -502,8 +503,45 @@ inconsistency results in false examples in the training set. Therefore, users sh
   │── lv
   │   ├── imgs
   │   ├── instances_test.json
-  │   └── instances_training.json
+  │   ├── instances_training.json
   │   └── instances_val.json
+  ```
+
+### LSVT
+
+- Step1: Download [train_full_images_0.tar.gz](https://dataset-bj.cdn.bcebos.com/lsvt/train_full_images_0.tar.gz), [train_full_images_1.tar.gz](https://dataset-bj.cdn.bcebos.com/lsvt/train_full_images_1.tar.gz), and [train_full_labels.json](https://dataset-bj.cdn.bcebos.com/lsvt/train_full_labels.json) to `lsvt/`.
+
+  ```bash
+  mkdir lsvt && cd lsvt
+
+  # Download LSVT dataset
+  wget https://dataset-bj.cdn.bcebos.com/lsvt/train_full_images_0.tar.gz
+  wget https://dataset-bj.cdn.bcebos.com/lsvt/train_full_images_1.tar.gz
+  wget https://dataset-bj.cdn.bcebos.com/lsvt/train_full_labels.json
+
+  mkdir annotations
+  tar -xf train_full_images_0.tar.gz && tar -xf train_full_images_1.tar.gz
+  mv train_full_labels.json annotations/ && mv train_full_images_1/*.jpg train_full_images_0/
+  mv train_full_images_0 imgs
+
+  rm train_full_images_0.tar.gz && rm train_full_images_1.tar.gz && rm -rf train_full_images_1
+  ```
+
+- Step2: Generate `instances_training.json` and `instances_val.json` (optional) with the following command:
+
+  ```bash
+  # Annotations of LSVT test split is not publicly available, split a validation
+  # set by adding --val-ratio 0.2
+  python tools/data/textdet/lsvt_converter.py PATH/TO/lsvt
+  ```
+
+- After running the above codes, the directory structure should be as follows:
+
+  ```text
+  |── lsvt
+  │   ├── imgs
+  │   ├── instances_training.json
+  │   └── instances_val.json (optional)
   ```
 
 ## IMGUR
@@ -798,13 +836,35 @@ inconsistency results in false examples in the training set. Therefore, users sh
 - Step3: - Step3: Generate `instances_training.json` and `instances_val.json` (optional). Since the original dataset doesn't have a validation set, you may specify `--val-ratio` to split the dataset. E.g., if val-ratio is 0.2, then 20% of the data are left out as the validation set in this example.
 
   ```bash
-  python tools/data/textrecog/bid_converter.py PATH/TO/BID --nproc 4
+  python tools/data/textdet/bid_converter.py PATH/TO/BID --nproc 4
   ```
 
 - After running the above codes, the directory structure should be as follows:
 
   ```text
   │── BID
+  │   ├── annotations
+  │   ├── imgs
+  │   ├── instances_training.json
+  │   └── instances_val.json (optional)
+  ```
+
+## RCTW
+
+- Step1: Download `train_images.zip.001`, `train_images.zip.002`, and `train_gts.zip` from the [homepage](https://rctw.vlrlab.net/dataset.html), extract the zips to `rctw/imgs` and `rctw/annotations`, respectively.
+
+- Step2: Generate `instances_training.json` and `instances_val.json` (optional). Since the original dataset doesn't have a validation set, you may specify `--val-ratio` to split the dataset. E.g., if val-ratio is 0.2, then 20% of the data are left out as the validation set in this example.
+
+  ```bash
+  # Annotations of RCTW test split is not publicly available, split a validation set by adding --val-ratio 0.2
+  # Add --preserve-vertical to preserve vertical texts for training, otherwise vertical images will be filtered and stored in PATH/TO/rctw/ignores
+  python tools/data/textdet/rctw_converter.py PATH/TO/rctw --nproc 4
+  ```
+
+- After running the above codes, the directory structure should be as follows:
+
+  ```text
+  │── rctw
   │   ├── annotations
   │   ├── imgs
   │   ├── instances_training.json
