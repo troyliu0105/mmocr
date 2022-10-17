@@ -6,15 +6,18 @@ train1 = dict(
     img_prefix=f'{root}/imgs',
     ann_file=f'{root}/instances_test.txt',
     loader=dict(
-        type='HardDiskLoader',
+        type='AnnFileLoader',
         repeat=4,
+        file_format='txt',
         parser=dict(
             type='LineJsonParser',
             keys=['file_name', 'height', 'width', 'annotations'])),
     pipeline=None,
     test_mode=False)
 
-# dataset with type='IcdarDataset'
+# dataset with type='IcdarDataset'.
+# Cannot be concatenated by 'UniformConcatDataset' and therefore not appended
+# to train_list, but left for demonstration.
 train2 = dict(
     type='IcdarDataset',
     ann_file=f'{root}/instances_test.json',
@@ -26,14 +29,15 @@ test = dict(
     img_prefix=f'{root}/imgs',
     ann_file=f'{root}/instances_test.txt',
     loader=dict(
-        type='HardDiskLoader',
+        type='AnnFileLoader',
         repeat=1,
+        file_format='txt',
         parser=dict(
             type='LineJsonParser',
             keys=['file_name', 'height', 'width', 'annotations'])),
     pipeline=None,
     test_mode=True)
 
-train_list = [train1, train2]
+train_list = [train1]
 
 test_list = [test]
